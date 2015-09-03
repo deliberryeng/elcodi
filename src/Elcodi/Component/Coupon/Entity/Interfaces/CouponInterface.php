@@ -23,6 +23,7 @@ use Elcodi\Component\Core\Entity\Interfaces\IdentifiableInterface;
 use Elcodi\Component\Core\Entity\Interfaces\ValidIntervalInterface;
 use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
 use Elcodi\Component\Rule\Entity\Interfaces\RuleInterface;
+use Elcodi\Component\Product\Entity\Interfaces\ProductInterface;
 
 /**
  * Interface CouponInterface
@@ -253,4 +254,20 @@ interface CouponInterface
      * @return $this Self object
      */
     public function makeUse();
+
+    /**
+     * Set product to which coupon will apply
+     *
+     * @param ProductInterface $product
+     *
+     * @return $this
+     */
+    public function setProduct(ProductInterface $product);
+
+    /**
+     * Get product to which coupon will apply
+     *
+     * @return ProductInterface
+     */
+    public function getProduct();
 }

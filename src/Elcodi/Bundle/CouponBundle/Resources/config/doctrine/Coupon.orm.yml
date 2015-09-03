@@ -95,6 +95,12 @@ Elcodi\Component\Coupon\Entity\Coupon:
                 name: rule
                 referencedColumnName: id
                 nullable: true
+        product:
+            targetEntity: Elcodi\Component\Product\Entity\Interfaces\ProductInterface
+            joinColumn:
+                name: product_id
+                referencedColumnName: id
+                nullable: true
 
     lifecycleCallbacks:
         preUpdate: [loadUpdateAt]

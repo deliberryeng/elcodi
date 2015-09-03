@@ -26,6 +26,7 @@ use Elcodi\Component\Currency\Entity\Interfaces\CurrencyInterface;
 use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
 use Elcodi\Component\Currency\Entity\Money;
 use Elcodi\Component\Rule\Entity\Interfaces\RuleInterface;
+use Elcodi\Component\Product\Entity\Interfaces\ProductInterface;
 
 /**
  * Class Coupon
@@ -148,6 +149,13 @@ class Coupon implements CouponInterface
      * Rule to check to be applicable
      */
     protected $rule;
+
+    /**
+     * @var ProductInterface
+     *
+     * Product to which coupon will apply
+     */
+    protected $product;
 
     /**
      * Set code
@@ -498,5 +506,28 @@ class Coupon implements CouponInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Set product to which coupon will apply
+     *
+     * @param ProductInterface $product
+     *
+     * @return $this
+     */
+    public function setProduct(ProductInterface $product)
+    {
+        $this->product = $product;
+        return $this;
+    }
+
+    /**
+     * Get product to which coupon will apply
+     *
+     * @return ProductInterface
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }
