@@ -43,6 +43,21 @@ trait PriceTrait
      */
     protected $productCurrency;
 
+
+    /**
+     * @var integer
+     *
+     * Coupon Amount
+     */
+    protected $couponAmount;
+
+    /**
+     * @var \Elcodi\Component\Currency\Entity\Interfaces\CurrencyInterface
+     *
+     * Coupon Currency
+     */
+    protected $couponCurrency;
+
     /**
      * @var integer
      *
@@ -111,5 +126,34 @@ trait PriceTrait
         $this->currency = $amount->getCurrency();
 
         return $this;
+    }
+
+
+    /**
+     * Sets the Coupon amount with tax
+     *
+     * @param \Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface $amount
+     *
+     * @return OrderInterface
+     */
+    public function setCouponAmount(\Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface $amount)
+    {
+        $this->couponAmount   = $amount->getAmount();
+        $this->couponCurrency = $amount->getCurrency();
+
+        return $this;
+    }
+
+    /**
+     * Gets the Coupon amount with tax
+     *
+     * @return \Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface
+     */
+    public function getCouponAmount()
+    {
+        return \Elcodi\Component\Currency\Entity\Money::create(
+            $this->couponAmount,
+            $this->couponCurrency ? $this->couponCurrency : $this->currency
+        );
     }
 }

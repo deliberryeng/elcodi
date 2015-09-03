@@ -78,20 +78,6 @@ class Order implements OrderInterface
     /**
      * @var integer
      *
-     * Coupon Amount
-     */
-    protected $couponAmount;
-
-    /**
-     * @var CurrencyInterface
-     *
-     * Coupon Currency
-     */
-    protected $couponCurrency;
-
-    /**
-     * @var integer
-     *
      * Shipping Amount
      */
     protected $shippingAmount;
@@ -302,33 +288,6 @@ class Order implements OrderInterface
         return $this->quantity;
     }
 
-    /**
-     * Sets the Coupon amount with tax
-     *
-     * @param MoneyInterface $amount coupon amount
-     *
-     * @return OrderInterface
-     */
-    public function setCouponAmount(MoneyInterface $amount)
-    {
-        $this->couponAmount   = $amount->getAmount();
-        $this->couponCurrency = $amount->getCurrency();
-
-        return $this;
-    }
-
-    /**
-     * Gets the Coupon amount with tax
-     *
-     * @return MoneyInterface Coupon amount
-     */
-    public function getCouponAmount()
-    {
-        return Money::create(
-            $this->couponAmount,
-            $this->couponCurrency
-        );
-    }
 
     /**
      * Sets the Shipping amount with tax

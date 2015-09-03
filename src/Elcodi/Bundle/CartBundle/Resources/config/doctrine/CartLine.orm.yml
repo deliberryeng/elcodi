@@ -16,6 +16,10 @@ Elcodi\Component\Cart\Entity\CartLine:
             column: amount
             type: integer
             nullable: false
+        couponAmount:
+            column: coupon_amount
+            type: integer
+            nullable: true
         quantity:
             column: quantity
             type: integer
@@ -50,6 +54,13 @@ Elcodi\Component\Cart\Entity\CartLine:
                  name: currency_iso
                  referencedColumnName: iso
                  nullable: false
+        couponCurrency:
+            targetEntity: Elcodi\Component\Currency\Entity\Interfaces\CurrencyInterface
+            fetch: EAGER
+            joinColumn:
+                 name: coupon_currency_iso
+                 referencedColumnName: iso
+                 nullable: true
         product:
             targetEntity: Elcodi\Component\Product\Entity\Interfaces\ProductInterface
             fetch: EAGER
