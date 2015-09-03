@@ -1,0 +1,12 @@
+services:
+
+    #
+    # Object Managers
+    #
+    elcodi.object_manager.cart_line_coupon:
+        parent: elcodi.abstract_manager
+        arguments: [ %elcodi.entity.cart_line_coupon.class% ]
+
+    elcodi.object_manager.order_line_coupon:
+        parent: elcodi.abstract_manager
+        arguments: [ %elcodi.entity.order_line_coupon.class% ]

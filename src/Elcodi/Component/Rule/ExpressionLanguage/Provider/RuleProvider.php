@@ -99,6 +99,21 @@ class RuleProvider implements ExpressionFunctionProviderInterface
                         : false;
                 }
             ),
+            new ExpressionFunction(
+                'floor', 
+                function () {
+                    throw new RuntimeException(
+                        'Function "floor" can\'t be compiled.'
+                    );
+                }, 
+                function ($arguments, $int) {
+                    if (!is_numeric($int)) {
+                        return $int;
+                    }
+
+                    return floor($int);
+                }
+            ),
         ];
     }
 }

@@ -1,0 +1,20 @@
+services:
+
+    #
+    # Directors
+    #
+    elcodi.director.cart_line_coupon:
+        class: Elcodi\Component\Core\Services\ObjectDirector
+        lazy: true
+        arguments:
+            - @elcodi.object_manager.cart_line_coupon
+            - @elcodi.repository.cart_line_coupon
+            - @elcodi.factory.cart_line_coupon
+
+    elcodi.director.order_line_coupon:
+        class: Elcodi\Component\Core\Services\ObjectDirector
+        lazy: true
+        arguments:
+            - @elcodi.object_manager.order_line_coupon
+            - @elcodi.repository.order_line_coupon
+            - @elcodi.factory.order_line_coupon

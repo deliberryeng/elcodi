@@ -17,6 +17,8 @@
 
 namespace Elcodi\Component\Coupon\Entity\Interfaces;
 
+use Doctrine\Common\Collections\Collection;
+
 use Elcodi\Component\Core\Entity\Interfaces\DateTimeInterface;
 use Elcodi\Component\Core\Entity\Interfaces\EnabledInterface;
 use Elcodi\Component\Core\Entity\Interfaces\IdentifiableInterface;
@@ -253,4 +255,68 @@ interface CouponInterface
      * @return $this Self object
      */
     public function makeUse();
+
+    /**
+     * Set products
+     *
+     * @param Collection $products Products
+     *
+     * @return $this Self object
+     */
+    public function setProducts(Collection $products);
+
+    /**
+     * Get products
+     *
+     * @return Collection Products
+     */
+    public function getProducts();
+
+    /**
+     * Set duscount rule Rule to apply in product price
+     *
+     * @param RuleInterface $rule New rule
+     *
+     * @return $this Self object
+     */
+    public function setDiscountRule(RuleInterface $rule);
+
+    /**
+     * Get discount rule to apply in product price
+     *
+     * @return RuleInterface Current  discount rule
+     */
+    public function getDiscountRule();
+
+    /**
+     * Set N (for "buy N pay M" discount rules)
+     *
+     * @param integer $n N
+     *
+     * @return $this Self object
+     */
+    public function setN($n);
+
+    /**
+     * Get N (for "buy N pay M" discount rules)
+     *
+     * @return integer N
+     */
+    public function getN();
+
+    /**
+     * Set M (for "buy N pay M" discount rules)
+     *
+     * @param integer $m M
+     *
+     * @return $this Self object
+     */
+    public function setM($m);
+
+    /**
+     * Get M (for "buy N pay M" discount rules)
+     *
+     * @return integer M
+     */
+    public function getM();
 }

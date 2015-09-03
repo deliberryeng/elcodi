@@ -282,19 +282,19 @@ class CartLoadEventListener
 
             /**
              * @var MoneyInterface $productAmount
-             * @var MoneyInterface $totalAmount
+             * @var MoneyInterface $convertedProductAmount
              */
+
             $convertedProductAmount = $this
                 ->currencyConverter
                 ->convertMoney(
-                    $cartLine->getProductAmount(),
+                    $cartLine->getAmount(),
                     $currency
                 );
 
             $productAmount = $productAmount
-                ->add($convertedProductAmount->multiply(
-                    $cartLine->getQuantity()
-                ));
+                ->add($convertedProductAmount);
+
         }
 
         $cart
@@ -304,7 +304,7 @@ class CartLoadEventListener
 
     /**
      * Loads CartLine prices.
-     * This method does not consider Coupon
+     * This method only considers cart_line/product Coupons
      *
      * @param CartLineInterface $cartLine Cart line
      *
@@ -327,8 +327,16 @@ class CartLoadEventListener
          *
          * Line Currency was set by CartManager::addProduct when factorizing CartLine
          */
+
+        $amount = $productPrice->multiply($cartLine->getQuantity());
+
+        $couponAmount = $this->getCartLineCouponAmount($cartLine);
+        if ($couponAmount){
+            $amount = $amount->subtract($couponAmount);
+        }
+
         $cartLine->setProductAmount($productPrice);
-        $cartLine->setAmount($productPrice->multiply($cartLine->getQuantity()));
+        $cartLine->setAmount($amount);
 
         return $cartLine;
     }
@@ -358,5 +366,20 @@ class CartLoadEventListener
         $cart->setQuantity($quantity);
 
         return $cart;
+    }
+
+    protected function getCartLineCouponAmount($cartLine)
+    {
+        $currency = $this
+            ->currencyWrapper
+            ->get();
+
+        $couponAmount = Money::create(0, $currency);
+
+        if ($cartLine->getId()){
+            $couponAmount = $cartLine->getCouponAmount();
+        }
+
+        return $couponAmount;
     }
 }

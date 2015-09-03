@@ -19,12 +19,14 @@ namespace Elcodi\Component\Cart\Transformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Persistence\ObjectManager;
 
 use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
 use Elcodi\Component\Cart\Entity\Interfaces\OrderInterface;
 use Elcodi\Component\Cart\Entity\Interfaces\OrderLineInterface;
 use Elcodi\Component\Cart\EventDispatcher\OrderLineEventDispatcher;
 use Elcodi\Component\Cart\Factory\OrderLineFactory;
+use Elcodi\Component\CartLineCoupon\Services\CartLineCouponManager;
 
 /**
  * Class CartLineOrderLineTransformer
@@ -44,6 +46,13 @@ class CartLineOrderLineTransformer
     protected $orderLineEventDispatcher;
 
     /**
+     * @var CartLineCouponOrderLineCouponTransformer
+     *
+     * CartLineCoupon to OrderLineCoupon transformer
+     */
+    protected $cartLineCouponOrderLineCouponTransformer;
+
+    /**
      * @var OrderLineFactory
      *
      * OrderLine factory
@@ -51,17 +60,40 @@ class CartLineOrderLineTransformer
     protected $orderLineFactory;
 
     /**
+     * @var CartLineCouponManager
+     *
+     * CartLineCoupon manager
+     */
+    protected $cartLineCouponManager;
+
+    /**
+     * @var ObjectManager
+     *
+     * ObjectManager for Order Line entity
+     */
+    protected $orderLineObjectManager;
+
+    /**
      * Construct method
      *
      * @param OrderLineEventDispatcher $orderLineEventDispatcher Event dispatcher
+     * @param CartLineCouponOrderLineCouponTransformer $cartLineCouponOrderLineCouponTransformer CartLineCoupon to OrderLineCoupon transformer
      * @param OrderLineFactory         $orderLineFactory         OrderLineFactory
+     * @param CartLineCouponManager    $cartLineCouponManager    CartLineCoupon manager
+     * @param ObjectManager            $orderLineObjectManager   ObjectManager for Order Line entity
      */
     public function __construct(
         OrderLineEventDispatcher $orderLineEventDispatcher,
-        OrderLineFactory $orderLineFactory
+        CartLineCouponOrderLineCouponTransformer $cartLineCouponOrderLineCouponTransformer,
+        OrderLineFactory $orderLineFactory,
+        CartLineCouponManager $cartLineCouponManager,
+        ObjectManager $orderLineObjectManager
     ) {
         $this->orderLineEventDispatcher = $orderLineEventDispatcher;
+        $this->cartLineCouponOrderLineCouponTransformer = $cartLineCouponOrderLineCouponTransformer;
         $this->orderLineFactory = $orderLineFactory;
+        $this->cartLineCouponManager = $cartLineCouponManager;
+        $this->orderLineObjectManager = $orderLineObjectManager;
     }
 
     /**
@@ -89,6 +121,16 @@ class CartLineOrderLineTransformer
                 );
 
             $cartLine->setOrderLine($orderLine);
+
+            $orderLineCoupons = $this
+                ->cartLineCouponOrderLineCouponTransformer
+                ->createOrderLineCouponsByCartLineCoupons(
+                    $orderLine,
+                    $this->cartLineCouponManager->getCartLineCoupons($cartLine)
+                );
+
+            #$orderLine->setOrderLineCoupons($orderLineCoupons);
+
             $orderLines->add($orderLine);
         }
 
@@ -125,6 +167,9 @@ class CartLineOrderLineTransformer
             ->setDepth($cartLine->getDepth())
             ->setWeight($cartLine->getWeight());
 
+        $this->orderLineObjectManager
+            ->persist($orderLine);
+
         $this
             ->orderLineEventDispatcher
             ->dispatchOrderLineOnCreatedEvent(
@@ -132,6 +177,8 @@ class CartLineOrderLineTransformer
                 $cartLine,
                 $orderLine
             );
+
+
 
         return $orderLine;
     }

@@ -82,6 +82,7 @@ class AutomaticCouponApplicatorEventListener
         ]);
 
         foreach ($automaticCoupons as $coupon) {
+            if ($coupon->getDiscountRule()) continue;
             try {
                 $this
                     ->cartCouponManager

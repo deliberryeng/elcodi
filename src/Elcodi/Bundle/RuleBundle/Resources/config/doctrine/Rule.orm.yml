@@ -19,3 +19,7 @@ Elcodi\Component\Rule\Entity\Rule:
             column: expression
             type: text
             nullable: false
+        type:
+            column: type
+            type: integer
+            nullable: false

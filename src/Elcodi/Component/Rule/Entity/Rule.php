@@ -42,6 +42,13 @@ class Rule implements RuleInterface
     protected $expression;
 
     /**
+     * @var integer
+     *
+     * Type
+     */
+    protected $type;
+
+    /**
      * Sets name
      *
      * @param string $name Name
@@ -87,5 +94,29 @@ class Rule implements RuleInterface
     public function getExpression()
     {
         return $this->expression;
+    }
+
+    /**
+     * Set type
+     *
+     * @param integer $type Type
+     *
+     * @return $this Self object
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer Type
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

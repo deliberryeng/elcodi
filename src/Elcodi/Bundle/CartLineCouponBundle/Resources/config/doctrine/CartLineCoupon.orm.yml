@@ -1,0 +1,36 @@
+Elcodi\Component\CartLineCoupon\Entity\CartLineCoupon:
+    type: entity
+    repositoryClass: Elcodi\Component\CartLineCoupon\Repository\CartLineCouponRepository
+    table: cart_line_coupon
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        amount:
+            column: amount
+            type: integer
+            nullable: false
+            options:
+                default: 0
+    manyToOne:
+        cartLine:
+            targetEntity: Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface
+            joinColumn:
+                name: cart_line_id
+                referencedColumnName: id
+                onDelete: "CASCADE"
+        coupon:
+            targetEntity: Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface
+            fetch: EAGER
+            joinColumn:
+                name: coupon_id
+                referencedColumnName: id
+        amountCurrency:
+            targetEntity: Elcodi\Component\Currency\Entity\Interfaces\CurrencyInterface
+            fetch: EAGER
+            joinColumn:
+                 name: amount_currency_iso
+                 referencedColumnName: iso
+                 nullable: true

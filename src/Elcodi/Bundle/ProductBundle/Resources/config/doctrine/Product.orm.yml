@@ -188,6 +188,9 @@ Elcodi\Component\Product\Entity\Product:
                     attribute_id:
                         referencedColumnName: id
                         onDelete: "CASCADE"
+        coupons:
+            targetEntity: Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface
+            mappedBy: products
 
     lifecycleCallbacks:
         preUpdate: [loadUpdateAt]

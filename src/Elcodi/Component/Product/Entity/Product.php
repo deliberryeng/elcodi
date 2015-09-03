@@ -28,6 +28,7 @@ use Elcodi\Component\Media\Entity\Traits\ImagesContainerTrait;
 use Elcodi\Component\Media\Entity\Traits\PrincipalImageTrait;
 use Elcodi\Component\MetaData\Entity\Traits\MetaDataTrait;
 use Elcodi\Component\Product\Entity\Interfaces\CategoryInterface;
+use Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface;
 use Elcodi\Component\Product\Entity\Interfaces\ManufacturerInterface;
 use Elcodi\Component\Product\Entity\Interfaces\ProductInterface;
 use Elcodi\Component\Product\Entity\Interfaces\VariantInterface;
@@ -153,6 +154,13 @@ class Product implements ProductInterface
      * Principal variant for this product
      */
     protected $principalVariant;
+
+    /**
+     * @var Collection
+     *
+     * Coupons for this product
+     */
+    protected $coupons;
 
     /**
      * Set name
@@ -596,6 +604,57 @@ class Product implements ProductInterface
         return $this->variants->count() > 0;
     }
 
+    /**
+     * Set coupons
+     *
+     * @param Collection $coupons Coupons
+     *
+     * @return $this Self object
+     */
+    public function setCoupons(Collection $coupons)
+    {
+        $this->coupons = $coupons;
+
+        return $this;
+    }
+
+    /**
+     * Get coupons
+     *
+     * @return Collection Coupons
+     */
+    public function getCoupons()
+    {
+        return $this->coupons;
+    }
+
+    /**
+     * Add coupon
+     *
+     * @param CouponInterface $coupon Coupon
+     *
+     * @return $this Self object
+     */
+    public function addCoupon(CouponInterface $coupon)
+    {
+        $this->coupons->add($coupon);
+
+        return $this;
+    }
+
+    /**
+     * Remove coupon
+     *
+     * @param CouponInterface $coupon Coupon
+     *
+     * @return $this Self object
+     */
+    public function removeCoupon(CouponInterface $coupon)
+    {
+        $this->coupons->removeElement($coupon);
+
+        return $this;
+    }
     /**
      * Product stringified
      *

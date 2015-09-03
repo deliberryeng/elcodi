@@ -17,6 +17,7 @@
 
 namespace Elcodi\Component\Rule\Factory;
 
+use Elcodi\Component\Coupon\ElcodiRuleTypes;
 use Elcodi\Component\Core\Factory\Abstracts\AbstractFactory;
 use Elcodi\Component\Rule\Entity\Rule;
 
@@ -39,6 +40,7 @@ class RuleFactory extends AbstractFactory
          */
         $classNamespace = $this->getEntityNamespace();
         $rule = new $classNamespace();
+        $rule->setType(ElcodiRuleTypes::TYPE_APPLIANCE);
 
         return $rule;
     }

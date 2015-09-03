@@ -55,4 +55,22 @@ interface RuleInterface extends IdentifiableInterface
      * @return string Expression
      */
     public function getExpression();
+
+    /**
+     * Set type
+     * @see ElcodiRuleTypes::TYPE_APPLIANCE
+     * @see ElcodiRuleTypes::TYPE_DISCOUNT
+     *
+     * @param integer $type Type
+     *
+     * @return $this Self object
+     */
+    public function setType($type);
+
+    /**
+     * Get type
+     *
+     * @return integer Type
+     */
+    public function getType();
 }

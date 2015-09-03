@@ -17,6 +17,8 @@
 
 namespace Elcodi\Component\Cart\Entity;
 
+use Doctrine\Common\Collections\Collection;
+
 use Elcodi\Component\Cart\Entity\Interfaces\OrderInterface;
 use Elcodi\Component\Cart\Entity\Interfaces\OrderLineInterface;
 use Elcodi\Component\Cart\Entity\Traits\PriceTrait;
@@ -66,5 +68,36 @@ class OrderLine implements OrderLineInterface
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * @var Collection
+     *
+     * orderLineCoupons for this order line
+     */
+    protected $orderLineCoupons;
+
+    /**
+     * Set orderLineCoupons
+     *
+     * @param Collection $orderLineCoupons OrderLineCoupons
+     *
+     * @return $this Self object
+     */
+    public function setOrderLineCoupons(Collection $orderLineCoupons)
+    {
+        $this->orderLineCoupons = $orderLineCoupons;
+
+        return $this;
+    }
+
+    /**
+     * Get orderLineCoupons
+     *
+     * @return Collection orderLineCoupons
+     */
+    public function getOrderLineCoupons()
+    {
+        return $this->orderLineCoupons;
     }
 }

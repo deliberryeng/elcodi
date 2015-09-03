@@ -74,6 +74,14 @@ Elcodi\Component\Coupon\Entity\Coupon:
         enabled:
             column: enabled
             type: boolean
+        n:
+            column: n
+            type: integer
+            nullable: true
+        m:
+            column: m
+            type: integer
+            nullable: true
 
     manyToOne:
         priceCurrency:
@@ -95,6 +103,26 @@ Elcodi\Component\Coupon\Entity\Coupon:
                 name: rule
                 referencedColumnName: id
                 nullable: true
+        discountRule:
+            targetEntity: Elcodi\Component\Rule\Entity\Interfaces\RuleInterface
+            fetch: EAGER
+            joinColumn:
+                name: discount_rule
+                referencedColumnName: id
+                nullable: true
+
+    manyToMany:
+        products:
+            targetEntity: Elcodi\Component\Product\Entity\Interfaces\ProductInterface
+            inversedBy: coupons
+            joinTable:
+                name: coupon_product
+                joinColumns:
+                    coupon_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    product_id:
+                        referencedColumnName: id
 
     lifecycleCallbacks:
         preUpdate: [loadUpdateAt]

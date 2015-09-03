@@ -67,3 +67,7 @@ Elcodi\Component\Cart\Entity\OrderLine:
                 name: variant_id
                 referencedColumnName: id
                 nullable: true
+    oneToMany:
+        orderLineCoupons:
+            targetEntity: Elcodi\Component\CartLineCoupon\Entity\Interfaces\OrderLineCouponInterface
+            mappedBy: orderLine
