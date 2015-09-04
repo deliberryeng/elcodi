@@ -282,19 +282,19 @@ class CartLoadEventListener
 
             /**
              * @var MoneyInterface $productAmount
-             * @var MoneyInterface $totalAmount
+             * @var MoneyInterface $convertedProductAmount
              */
+
             $convertedProductAmount = $this
                 ->currencyConverter
                 ->convertMoney(
-                    $cartLine->getProductAmount(),
+                    $cartLine->getAmount(),
                     $currency
                 );
 
             $productAmount = $productAmount
-                ->add($convertedProductAmount->multiply(
-                    $cartLine->getQuantity()
-                ));
+                ->add($convertedProductAmount);
+
         }
 
         $cart
@@ -304,7 +304,7 @@ class CartLoadEventListener
 
     /**
      * Loads CartLine prices.
-     * This method does not consider Coupon
+     * This method only considers cart_line/product Coupons
      *
      * @param CartLineInterface $cartLine Cart line
      *
@@ -328,7 +328,11 @@ class CartLoadEventListener
          * Line Currency was set by CartManager::addProduct when factorizing CartLine
          */
         $cartLine->setProductAmount($productPrice);
-        $cartLine->setAmount($productPrice->multiply($cartLine->getQuantity()));
+        $cartLine->setAmount(
+            $productPrice
+            ->multiply($cartLine->getQuantity())
+            ->subtract($cartLine->getCouponAmount())
+        );
 
         return $cartLine;
     }

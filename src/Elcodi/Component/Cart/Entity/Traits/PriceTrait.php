@@ -152,7 +152,7 @@ trait PriceTrait
     public function getCouponAmount()
     {
         return \Elcodi\Component\Currency\Entity\Money::create(
-            $this->couponAmount,
+            $this->couponAmount ? $this->couponAmount : 0,
             $this->couponCurrency ? $this->couponCurrency : $this->currency
         );
     }
