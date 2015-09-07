@@ -327,12 +327,16 @@ class CartLoadEventListener
          *
          * Line Currency was set by CartManager::addProduct when factorizing CartLine
          */
+
+        $amount = $productPrice->multiply($cartLine->getQuantity());
+
+        $couponAmount = $this->getCartLineCouponAmount($cartLine);
+        if ($couponAmount){
+            $amount = $amount->subtract($couponAmount);
+        }
+
         $cartLine->setProductAmount($productPrice);
-        $cartLine->setAmount(
-            $productPrice
-            ->multiply($cartLine->getQuantity())
-            ->subtract($cartLine->getCouponAmount())
-        );
+        $cartLine->setAmount($amount);
 
         return $cartLine;
     }
@@ -362,5 +366,20 @@ class CartLoadEventListener
         $cart->setQuantity($quantity);
 
         return $cart;
+    }
+
+    protected function getCartLineCouponAmount($cartLine)
+    {
+        $currency = $this
+            ->currencyWrapper
+            ->get();
+
+        $couponAmount = Money::create(0, $currency);
+
+        if ($cartLine->getId()){
+            $couponAmount = $cartLine->getCouponAmount();
+        }
+
+        return $couponAmount;
     }
 }
