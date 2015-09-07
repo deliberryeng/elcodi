@@ -84,11 +84,12 @@ class CartCouponRuleManager
         $coupon
     )
     {
-        $rule  = $coupon->getdiscountRule();
-        $n     = $coupon->getN();
-        $m     = $coupon->getM();
-        $qty   = $cartLine->getQuantity();
-        $price = $cartLine->getProductAmount()->getAmount();
+        $discount = $coupon->getDiscount();
+        $rule     = $coupon->getdiscountRule();
+        $n        = $coupon->getN();
+        $m        = $coupon->getM();
+        $qty      = $cartLine->getQuantity();
+        $price    = $cartLine->getProductAmount()->getAmount();
 
         $couponAmount = $cartLine->getCouponAmount();
 
@@ -98,10 +99,11 @@ class CartCouponRuleManager
                 ->evaluate(
                     $rule,
                     [
-                        'N'     => $n,
-                        'M'     => $m,
-                        'qty'   => $qty,
-                        'price' => $price,
+                        'discount' => $discount,
+                        'N'        => $n,
+                        'M'        => $m,
+                        'qty'      => $qty,
+                        'price'    => $price,
                     ]
                 );
             $couponAmount->setAmount($calculatedDiscount);
