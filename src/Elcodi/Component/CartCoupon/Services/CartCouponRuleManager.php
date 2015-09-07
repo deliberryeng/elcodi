@@ -78,4 +78,37 @@ class CartCouponRuleManager
 
         return false;
     }
+
+    public function getCouponAmount(
+        $cartLine,
+        $coupon
+    )
+    {
+        $rule  = $coupon->getdiscountRule();
+        $n     = $coupon->getN();
+        $m     = $coupon->getM();
+        $qty   = $cartLine->getQuantity();
+        $price = $cartLine->getProductAmount()->getAmount();
+
+        $couponAmount = $cartLine->getCouponAmount();
+
+        try {
+            $calculatedDiscount = $this
+                ->ruleManager
+                ->evaluate(
+                    $rule,
+                    [
+                        'N'     => $n,
+                        'M'     => $m,
+                        'qty'   => $qty,
+                        'price' => $price,
+                    ]
+                );
+            $couponAmount->setAmount($calculatedDiscount);
+        } catch (\Exception $e) {
+            // Maybe log something in case of exception?
+        }
+
+        return $couponAmount;
+    }
 }

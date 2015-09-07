@@ -23,6 +23,16 @@ services:
         tags:
             - { name: kernel.event_listener, event: cart.onload, method: limitCartAmount, priority: -255 }
 
+    elcodi.event_listener.cart_line_edit:
+        class: Elcodi\Component\Cart\EventListener\CartLineEditEventListener
+        arguments:
+            - @elcodi.object_manager.cart_line
+            - @elcodi.manager.cart_coupon_rule
+            - @elcodi.manager.cart_coupon
+        tags:
+            - { name: kernel.event_listener, event:cart_line.onedit , method: updateCouponAmount, priority: 0 }
+
+
     elcodi.event_listener.order_creation:
         class: Elcodi\Component\Cart\EventListener\OrderCreationEventListener
         arguments:
