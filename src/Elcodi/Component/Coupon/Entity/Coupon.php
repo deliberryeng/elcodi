@@ -158,6 +158,27 @@ class Coupon implements CouponInterface
     protected $product;
 
     /**
+     * @var RuleInterface
+     *
+     * Discount rule to apply in product price
+     */
+    protected $discountRule;
+
+    /**
+     * @var integer
+     *
+     * N (for "buy N pay M" discount rules)
+     */
+    protected $n;
+
+    /**
+     * @var integer
+     *
+     * M (for "buy N pay M" discount rules)
+     */
+    protected $m;
+
+    /**
      * Set code
      *
      * @param string $code Code
@@ -529,5 +550,78 @@ class Coupon implements CouponInterface
     public function getProduct()
     {
         return $this->product;
+    }
+
+
+    /**
+     * Set discount rule Rule to apply in product price
+     *
+     * @param RuleInterface $rule New rule
+     *
+     * @return $this Self object
+     */
+    public function setDiscountRule(RuleInterface $rule = null)
+    {
+        $this->discountRule = $rule;
+
+        return $this;
+    }
+
+    /**
+     * Get discount rule to apply in product price
+     *
+     * @return RuleInterface Current rule
+     */
+    public function getDiscountRule()
+    {
+        return $this->discountRule;
+    }
+
+    /**
+     * Set N (for "buy N pay M" discount rules)
+     *
+     * @param integer $n N
+     *
+     * @return $this Self object
+     */
+    public function setN($n)
+    {
+        $this->n = $n;
+
+        return $this;
+    }
+
+    /**
+     * Get N (for "buy N pay M" discount rules)
+     *
+     * @return integer N
+     */
+    public function getN()
+    {
+        return $this->n;
+    }
+
+    /**
+     * Set M (for "buy N pay M" discount rules)
+     *
+     * @param integer $m M
+     *
+     * @return $this Self object
+     */
+    public function setM($m)
+    {
+        $this->m = $m;
+
+        return $this;
+    }
+
+    /**
+     * Get M (for "buy N pay M" discount rules)
+     *
+     * @return integer M
+     */
+    public function getM()
+    {
+        return $this->m;
     }
 }
