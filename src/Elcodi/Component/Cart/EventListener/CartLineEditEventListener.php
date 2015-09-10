@@ -66,9 +66,15 @@ class CartLineEditEventListener
         $coupons = $this
             ->cartCouponManager
             ->getCoupons($cart);
+
         foreach ($coupons as $coupon)
         {
-            if ($coupon->getProduct()->getId() == $cartLine->getProduct()->getId()){
+            $productIds = $coupon 
+                ->getProducts()
+                ->map(function($entity) { return $entity->getId(); })
+                ->toArray();
+
+            if (in_array($cartLine->getProduct()->getId(), $productIds)){
                 $this->refreshCouponAmount($cartLine, $coupon);
             }
         }

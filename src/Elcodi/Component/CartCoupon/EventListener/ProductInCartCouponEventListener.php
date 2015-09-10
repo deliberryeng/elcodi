@@ -29,10 +29,11 @@ class ProductInCartCouponEventListener
      */
     public function checkProductInCart(CartCouponOnCheckEvent $event)
     {
-        $productId = $event
+        $productIds = $event
             ->getCoupon()
-            ->getProduct()
-            ->getId();
+            ->getProducts()
+            ->map(function($entity) { return $entity->getId(); })
+            ->toArray();
 
         $cartLines = $event
             ->getCart()
@@ -40,7 +41,7 @@ class ProductInCartCouponEventListener
 
         $found = false;
         foreach ($cartLines as $cartLine){
-            if ($productId == $cartLine->getProduct()->getId())
+            if (in_array($cartLine->getProduct()->getId(), $productIds))
             {
                 $found = true;
             }

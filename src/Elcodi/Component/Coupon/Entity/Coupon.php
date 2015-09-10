@@ -17,6 +17,8 @@
 
 namespace Elcodi\Component\Coupon\Entity;
 
+use Doctrine\Common\Collections\Collection;
+
 use Elcodi\Component\Core\Entity\Traits\DateTimeTrait;
 use Elcodi\Component\Core\Entity\Traits\EnabledTrait;
 use Elcodi\Component\Core\Entity\Traits\IdentifiableTrait;
@@ -26,7 +28,6 @@ use Elcodi\Component\Currency\Entity\Interfaces\CurrencyInterface;
 use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
 use Elcodi\Component\Currency\Entity\Money;
 use Elcodi\Component\Rule\Entity\Interfaces\RuleInterface;
-use Elcodi\Component\Product\Entity\Interfaces\ProductInterface;
 
 /**
  * Class Coupon
@@ -151,11 +152,12 @@ class Coupon implements CouponInterface
     protected $rule;
 
     /**
-     * @var ProductInterface
+     * @var Collection
      *
-     * Product to which coupon will apply
+     * Many-to-Many association between copuons and products.
+     * Products to which coupon will apply
      */
-    protected $product;
+    protected $products;
 
     /**
      * @var RuleInterface
@@ -530,26 +532,27 @@ class Coupon implements CouponInterface
     }
 
     /**
-     * Set product to which coupon will apply
+     * Set products
      *
-     * @param ProductInterface $product
+     * @param Collection $products Products
      *
-     * @return $this
+     * @return $this Self Object
      */
-    public function setProduct(ProductInterface $product)
+    public function setProducts(Collection $products)
     {
-        $this->product = $product;
+        $this->products = $products;
+
         return $this;
     }
 
     /**
-     * Get product to which coupon will apply
+     * Get products
      *
-     * @return ProductInterface
+     * @return Collection
      */
-    public function getProduct()
+    public function getProducts()
     {
-        return $this->product;
+        return $this->products;
     }
 
 

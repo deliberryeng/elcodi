@@ -17,13 +17,14 @@
 
 namespace Elcodi\Component\Coupon\Entity\Interfaces;
 
+use Doctrine\Common\Collections\Collection;
+
 use Elcodi\Component\Core\Entity\Interfaces\DateTimeInterface;
 use Elcodi\Component\Core\Entity\Interfaces\EnabledInterface;
 use Elcodi\Component\Core\Entity\Interfaces\IdentifiableInterface;
 use Elcodi\Component\Core\Entity\Interfaces\ValidIntervalInterface;
 use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
 use Elcodi\Component\Rule\Entity\Interfaces\RuleInterface;
-use Elcodi\Component\Product\Entity\Interfaces\ProductInterface;
 
 /**
  * Interface CouponInterface
@@ -256,20 +257,20 @@ interface CouponInterface
     public function makeUse();
 
     /**
-     * Set product to which coupon will apply
+     * Set products
      *
-     * @param ProductInterface $product
+     * @param Collection $products Products
      *
-     * @return $this
+     * @return $this Self object
      */
-    public function setProduct(ProductInterface $product);
+    public function setProducts(Collection $products);
 
     /**
-     * Get product to which coupon will apply
+     * Get products
      *
-     * @return ProductInterface
+     * @return Collection Products
      */
-    public function getProduct();
+    public function getProducts();
 
     /**
      * Set duscount rule Rule to apply in product price
