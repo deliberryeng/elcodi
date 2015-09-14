@@ -89,7 +89,8 @@ class ProductFactory extends AbstractPurchasableFactory
             ->setWeight(0)
             ->setImagesSort('')
             ->setEnabled(true)
-            ->setCreatedAt($this->now());
+            ->setCreatedAt($this->now())
+            ->setCoupons(new ArrayCollection());
 
         return $product;
     }
