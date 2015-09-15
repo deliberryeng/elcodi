@@ -1,0 +1,19 @@
+services:
+
+    #
+    # Repositories
+    #
+
+    #
+    # Repository for entity cart_line_coupon
+    #
+    elcodi.repository.cart_line_coupon:
+        parent: elcodi.abstract_repository
+        arguments: [ %elcodi.entity.cart_line_coupon.class% ]
+
+    #
+    # Repository for entity order_line_coupon
+    #
+    elcodi.repository.order_line_coupon:
+        parent: elcodi.abstract_repository
+        arguments: [ %elcodi.entity.order_line_coupon.class% ]

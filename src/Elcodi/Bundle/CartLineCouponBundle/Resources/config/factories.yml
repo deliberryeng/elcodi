@@ -1,0 +1,21 @@
+services:
+
+    #
+    # Factories
+    #
+
+    #
+    # Factory for entity cart_line_coupon
+    #
+    elcodi.factory.cart_line_coupon:
+        class: Elcodi\Component\CartLineCoupon\Factory\CartLineCouponFactory
+        calls:
+            - [setEntityNamespace, ["%elcodi.entity.cart_line_coupon.class%"]]
+
+    #
+    # Factory for entity order_line_coupon
+    #
+    elcodi.factory.order_line_coupon:
+        class: Elcodi\Component\CartLineCoupon\Factory\OrderLineCouponFactory
+        calls:
+            - [setEntityNamespace, ["%elcodi.entity.order_line_coupon.class%"]]
