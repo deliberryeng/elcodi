@@ -17,13 +17,13 @@
 
 namespace Elcodi\Component\CartLineCoupon\Factory;
 
-use Elcodi\Component\CartLineCoupon\Entity\CartLineCoupon;
-use Elcodi\Component\Core\Factory\Abstracts\AbstractFactory;
+use Elcodi\Component\CartLineCoupon\Entity\Interfaces\CartLineCouponInterface;
+use Elcodi\Component\Currency\Factory\Abstracts\AbstractPurchasableFactory;
 
 /**
  * Class CartLineCoupon
  */
-class CartLineCouponFactory extends AbstractFactory
+class CartLineCouponFactory extends AbstractPurchasableFactory
 {
     /**
      * Creates an instance of an entity.
@@ -34,8 +34,11 @@ class CartLineCouponFactory extends AbstractFactory
      */
     public function create()
     {
+        $zeroPrice = $this->createZeroAmountMoney();
+
         $classNamespace = $this->getEntityNamespace();
         $cartLineCoupon = new $classNamespace();
+        $cartLineCoupon->setAmount($zeroPrice);
 
         return $cartLineCoupon;
     }

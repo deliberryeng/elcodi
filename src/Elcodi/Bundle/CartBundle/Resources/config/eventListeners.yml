@@ -27,8 +27,10 @@ services:
         class: Elcodi\Component\Cart\EventListener\CartLineEditEventListener
         arguments:
             - @elcodi.object_manager.cart_line
-            - @elcodi.manager.cart_coupon_rule
-            - @elcodi.manager.cart_coupon
+            - @elcodi.object_manager.cart_line_coupon
+            - @elcodi.manager.cart_line_coupon
+            - @elcodi.manager.cart_line_coupon_rule
+            - @elcodi.wrapper.currency
         tags:
             - { name: kernel.event_listener, event:cart_line.onedit , method: updateCouponAmount, priority: 0 }
 

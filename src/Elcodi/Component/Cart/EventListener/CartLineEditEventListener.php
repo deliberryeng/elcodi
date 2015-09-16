@@ -4,11 +4,15 @@ namespace Elcodi\Component\Cart\EventListener;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Elcodi\Component\Cart\Entity\Interfaces\CartInterface;
 use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
+use Elcodi\Component\CartLineCoupon\Entity\Interfaces\CartLineCouponInterface;
 use Elcodi\Component\Cart\Event\CartLineOnEditEvent;
-use Elcodi\Component\CartCoupon\Services\CartCouponManager;
-use Elcodi\Component\CartCoupon\Services\CartCouponRuleManager;
+use Elcodi\Component\CartLineCoupon\Services\CartLineCouponManager;
+use Elcodi\Component\CartLineCoupon\Services\CartLineCouponRuleManager;
+use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
+use Elcodi\Component\Currency\Entity\Money;
+use Elcodi\Component\Currency\Wrapper\CurrencyWrapper;
+
 
 class CartLineEditEventListener
 {
@@ -21,35 +25,55 @@ class CartLineEditEventListener
     protected $cartLineObjectManager;
 
     /**
-     * @var CartCouponRuleManager
+     * @var CartLineCouponObjectManager
      *
-     * CartCoupon Rule managers
+     * CartLineCouponObjectManager
      */
-    protected $cartCouponRuleManager;
+    protected $cartLineCouponObjectManager;
 
     /**
-     * @var CartCouponManager
+     * @var CartLineCouponManager
      *
-     * CartCouponManager
+     * CartLineCoupon manager
      */
-    protected $cartCouponManager;
+    protected $cartLineCouponManager;
+
+    /**
+     * @var CartLineCouponRuleManager
+     *
+     * CartLineCoupon Rule manager
+     */
+    protected $cartLineCouponRuleManager;
+
+    /**
+     * @var CurrencyWrapper
+     *
+     * Currency Wrapper
+     */
+    protected $currencyWrapper;
+
 
     /**
      * Construct method
      *
-     * @param ObjectManager         $cartLineObjectManager ObjectManager for CartLine
-     *                                                     entity
-     * @param CartCouponManager     $cartCouponManager     Cart coupon manager
-     * @param CartCouponRuleManager $cartCouponRuleManager Manager for cart coupon rules
+     * @param ObjectManager             $cartLineObjectManager       ObjectManager for CartLine entity
+     * @param ObjectManager             $cartLineCouponObjectManager ObjectManager fir CartLineCoupon entity
+     * @param CartLineCouponManager     $cartLineCouponManager       Manager for cartLine coupons 
+     * @param CartLineCouponRuleManager $cartLineCouponRuleManager   Manager for cartLine coupon rules
+     * @param CurrencyWrapper           $currencyWrapper             Currency wrapper
      */
     public function __construct(
-        ObjectManager         $cartLineObjectManager,
-        CartCouponRuleManager $cartCouponRuleManager,
-        CartCouponManager     $cartCouponManager
+        ObjectManager             $cartLineObjectManager,
+        ObjectManager             $cartLineCouponObjectManager,
+        CartLineCouponManager $cartLineCouponManager,
+        CartLineCouponRuleManager $cartLineCouponRuleManager,
+        CurrencyWrapper $currencyWrapper
     ) {
-        $this->cartLineObjectManager = $cartLineObjectManager;
-        $this->cartCouponManager     = $cartCouponManager;
-        $this->cartCouponRuleManager = $cartCouponRuleManager;
+        $this->cartLineObjectManager       = $cartLineObjectManager;
+        $this->cartLineCouponObjectManager = $cartLineCouponObjectManager;
+        $this->cartLineCouponManager       = $cartLineCouponManager;
+        $this->cartLineCouponRuleManager   = $cartLineCouponRuleManager;
+        $this->currencyWrapper             = $currencyWrapper;
     }
 
     /**
@@ -60,36 +84,47 @@ class CartLineEditEventListener
      */
     function updateCouponAmount(CartLineOnEditEvent $event)
     {
-        $cart     = $event->getCart();
         $cartLine = $event->getCartLine();
+        $total    = Money::create(
+            0,
+            $this
+                ->currencyWrapper
+                ->get()
+        );
 
-        $coupons = $this
-            ->cartCouponManager
-            ->getCoupons($cart);
+        $cartLineCoupons = $this
+            ->cartLineCouponManager
+            ->getCartLineCoupons($cartLine);
 
-        foreach ($coupons as $coupon)
+        foreach ($cartLineCoupons as $cartLineCoupon)
         {
-            $productIds = $coupon 
-                ->getProducts()
-                ->map(function($entity) { return $entity->getId(); })
-                ->toArray();
-
-            if (in_array($cartLine->getProduct()->getId(), $productIds)){
-                $this->refreshCouponAmount($cartLine, $coupon);
-            }
+            $total = $total->add($this->refreshCouponAmount($cartLineCoupon, $cartLine));
         }
+
+        $this->refreshCartLineCouponAmount($cartLine, $total);
     }
 
-    protected function refreshCouponAmount($cartLine, $coupon)
+    protected function refreshCouponAmount(CartLineCouponInterface $cartLineCoupon, CartLineInterface $cartLine)
     {
+
         $couponAmount = $this
-            ->cartCouponRuleManager
+            ->cartLineCouponRuleManager
             ->getCouponAmount(
                 $cartLine,
-                $coupon
+                $cartLineCoupon->getCoupon()
             );
-        $cartLine->setCouponAmount($couponAmount); 
+        $cartLineCoupon->setAmount($couponAmount); 
 
+        $this->cartLineCouponObjectManager->persist($cartLineCoupon);
+        $this->cartLineCouponObjectManager->flush();
+
+        return $couponAmount;
+    }
+
+
+    protected function refreshCartLineCouponAmount(CartLineInterface $cartLine, $total)
+    {
+        $cartLine->setCouponAmount($total);
         $this->cartLineObjectManager->persist($cartLine);
         $this->cartLineObjectManager->flush();
     }

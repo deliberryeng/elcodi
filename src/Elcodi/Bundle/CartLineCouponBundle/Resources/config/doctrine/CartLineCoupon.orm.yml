@@ -11,6 +11,9 @@ Elcodi\Component\CartLineCoupon\Entity\CartLineCoupon:
         amount:
             column: amount
             type: integer
+            nullable: false
+            options:
+                default: 0
     manyToOne:
         cartLine:
             targetEntity: Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface

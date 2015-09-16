@@ -91,7 +91,7 @@ class CartLineCouponManager
      *
      * @param CartLineInterface $cartLine CartLine
      *
-     * @return CartLineCouponInterface[]|Collection OrderCoupons
+     * @return CartLineCouponInterface[]|Collection CartLineCoupons
      */
     public function getCartLineCoupons(CartLineInterface $cartLine)
     {
@@ -108,7 +108,7 @@ class CartLineCouponManager
             $this
                 ->cartLineCouponRepository
                 ->createQueryBuilder('clc')
-                ->where('clc.cart_line = :cartLine')
+                ->where('clc.cartLine = :cartLine')
                 ->setParameter('cartLine', $cartLine)
                 ->getQuery()
                 ->getResult()
@@ -138,7 +138,7 @@ class CartLineCouponManager
             ->createQueryBuilder('clc')
             ->select(['c', 'clc'])
             ->innerJoin('clc.coupon', 'c')
-            ->where('clc.cart_line = :cartLine')
+            ->where('clc.cartLine = :cartLine')
             ->setParameter('cartLine', $cartLine)
             ->getQuery()
             ->getResult();

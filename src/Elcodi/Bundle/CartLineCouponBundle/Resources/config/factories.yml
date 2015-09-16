@@ -9,6 +9,7 @@ services:
     #
     elcodi.factory.cart_line_coupon:
         class: Elcodi\Component\CartLineCoupon\Factory\CartLineCouponFactory
+        parent: elcodi.factory.abstract.purchasable
         calls:
             - [setEntityNamespace, ["%elcodi.entity.cart_line_coupon.class%"]]
 
