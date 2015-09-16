@@ -19,7 +19,7 @@ namespace Elcodi\Component\CartLineCoupon\Event\Abstracts;
 
 use Symfony\Component\EventDispatcher\Event;
 
-use Elcodi\Component\CartLine\Entity\Interfaces\CartLineInterface;
+use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
 use Elcodi\Component\CartLineCoupon\Entity\Interfaces\CartLineCouponInterface;
 use Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface;
 

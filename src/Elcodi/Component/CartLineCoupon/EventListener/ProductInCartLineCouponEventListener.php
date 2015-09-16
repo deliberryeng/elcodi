@@ -34,6 +34,7 @@ class ProductInCartLineCouponEventListener
             ->getProduct()
             ->getCoupons()
             ->map(function($entity) { return $entity->getId(); })
+            ->toArray()
         ;
         $couponId = $event
             ->getCoupon()

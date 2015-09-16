@@ -79,7 +79,7 @@ class AutomaticCouponApplicatorEventListener
             /**
             * @var CouponInterface[] $productCoupons
             */
-            $productCoupons = $cartLine->getProduct()->getCoupons());
+            $productCoupons = $cartLine->getProduct()->getCoupons();
             foreach ($productCoupons as $coupon) {
                 try {
                     $this
