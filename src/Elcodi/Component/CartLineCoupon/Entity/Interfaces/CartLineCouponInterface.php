@@ -20,6 +20,7 @@ namespace Elcodi\Component\CartLineCoupon\Entity\Interfaces;
 use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
 use Elcodi\Component\Core\Entity\Interfaces\IdentifiableInterface;
 use Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface;
+use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
 
 /**
  * Interface CartLineCouponInterface
@@ -57,4 +58,20 @@ interface CartLineCouponInterface extends IdentifiableInterface
      * @return CouponInterface Coupon
      */
     public function getCoupon();
+
+    /**
+     * Set amount
+     *
+     * @param MoneyInterface $amount Price
+     *
+     * @return $this Self object
+     */
+    public function setAmount(MoneyInterface $amount);
+
+    /**
+     * Get amount
+     *
+     * @return MoneyInterface Price
+     */
+    public function getAmount();
 }

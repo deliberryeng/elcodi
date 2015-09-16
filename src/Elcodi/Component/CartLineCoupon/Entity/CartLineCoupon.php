@@ -21,6 +21,9 @@ use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
 use Elcodi\Component\CartLineCoupon\Entity\Interfaces\CartLineCouponInterface;
 use Elcodi\Component\Core\Entity\Traits\IdentifiableTrait;
 use Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface;
+use Elcodi\Component\Currency\Entity\Interfaces\CurrencyInterface;
+use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
+use Elcodi\Component\Currency\Entity\Money;
 
 /**
  * Class CartLineCoupon
@@ -42,6 +45,20 @@ class CartLineCoupon implements CartLineCouponInterface
      * Coupon
      */
     protected $coupon;
+
+    /**
+     * @var integer
+     *
+     * Amount
+     */
+    protected $amount;
+
+    /**
+     * @var CurrencyInterface
+     *
+     * Amount currency
+     */
+    protected $amountCurrency;
 
     /**
      * Sets CartLine
@@ -89,5 +106,33 @@ class CartLineCoupon implements CartLineCouponInterface
     public function getCoupon()
     {
         return $this->coupon;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param MoneyInterface $amount Price
+     *
+     * @return $this Self object
+     */
+    public function setAmount(MoneyInterface $amount)
+    {
+        $this->amount = $amount->getAmount();
+        $this->amountCurrency = $amount->getCurrency();
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return MoneyInterface Price
+     */
+    public function getAmount()
+    {
+        return Money::create(
+            $this->amount,
+            $this->amountCurrency
+        );
     }
 }
