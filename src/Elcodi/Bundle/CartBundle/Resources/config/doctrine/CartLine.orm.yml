@@ -75,3 +75,4 @@ Elcodi\Component\Cart\Entity\CartLine:
                 name: variant_id
                 referencedColumnName: id
                 nullable: true
+    cascade: ["persist"]

@@ -4,9 +4,10 @@ namespace Elcodi\Component\Cart\EventListener;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Symfony\Component\EventDispatcher\Event;
+
 use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
 use Elcodi\Component\CartLineCoupon\Entity\Interfaces\CartLineCouponInterface;
-use Elcodi\Component\Cart\Event\CartLineOnEditEvent;
 use Elcodi\Component\CartLineCoupon\Services\CartLineCouponManager;
 use Elcodi\Component\CartLineCoupon\Services\CartLineCouponRuleManager;
 use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
@@ -79,10 +80,12 @@ class CartLineEditEventListener
     /**
      * Method subscribed to CartLineEdit event
      *
+     * @param Event $event Can be CartLineOnEditEvent or CartLineCouponOnCheckEvent
+     *
      * Refresh cart line coupon amount depending on coupon rule and product qty
      * in cart
      */
-    function updateCouponAmount(CartLineOnEditEvent $event)
+    function updateCouponAmount(Event $event)
     {
         $cartLine = $event->getCartLine();
         $total    = Money::create(

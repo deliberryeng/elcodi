@@ -67,11 +67,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: cart_coupon.oncheck, method: checkMinimumPrice, priority: 0 }
 
-    elcodi.event_listener.check_product_in_cart:
-        class: Elcodi\Component\CartCoupon\EventListener\ProductInCartCouponEventListener
-        tags:
-            - { name: kernel.event_listener, event: cart_coupon.oncheck, method: checkProductInCart, priority: 0 }
-
     elcodi.event_listener.check_rules:
         class: Elcodi\Component\CartCoupon\EventListener\CheckRulesEventListener
         arguments:
