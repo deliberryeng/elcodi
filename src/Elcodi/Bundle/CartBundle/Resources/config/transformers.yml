@@ -14,4 +14,12 @@ services:
         class: Elcodi\Component\Cart\Transformer\CartLineOrderLineTransformer
         arguments:
             - @elcodi.event_dispatcher.order_line
+            - @elcodi.transformer.cart_line_coupon_order_line_coupon
             - @elcodi.factory.order_line
+            - @elcodi.manager.cart_line_coupon
+            - @elcodi.object_manager.order_line
+
+    elcodi.transformer.cart_line_coupon_order_line_coupon:
+        class: Elcodi\Component\Cart\Transformer\CartLineCouponOrderLineCouponTransformer
+        arguments:
+            - @elcodi.factory.order_line_coupon

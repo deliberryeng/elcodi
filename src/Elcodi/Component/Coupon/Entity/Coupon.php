@@ -279,7 +279,7 @@ class Coupon implements CouponInterface
     /**
      * Set price
      *
-     * @param MoneyInterface $amount Price
+     * @param MoneyInterface $amount Price;
      *
      * @return $this Self object
      */
@@ -352,7 +352,7 @@ class Coupon implements CouponInterface
     {
         return Money::create(
             $this->absolutePriceAmount,
-            $this->absolutePriceCurrency
+            $this->absolutePriceCurrency ? $this->absolutePriceCurrency :  $this->priceCurrency
         );
     }
 

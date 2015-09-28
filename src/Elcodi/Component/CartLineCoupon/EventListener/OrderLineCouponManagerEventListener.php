@@ -21,6 +21,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 use Elcodi\Component\CartLineCoupon\Event\OrderLineCouponOnApplyEvent;
 use Elcodi\Component\CartLineCoupon\Factory\OrderLineCouponFactory;
+use Elcodi\Component\CartLineCoupon\Repository\CartLineCouponRepository;
 use Elcodi\Component\Coupon\EventDispatcher\CouponEventDispatcher;
 
 /**
@@ -33,7 +34,7 @@ class OrderLineCouponManagerEventListener
     /**
      * @var ObjectManager
      *
-     * cartLineCouponObjectManager
+     * orderLineCouponObjectManager
      */
     protected $orderLineCouponObjectManager;
 
@@ -52,20 +53,30 @@ class OrderLineCouponManagerEventListener
     protected $orderLineCouponFactory;
 
     /**
+     * @var CartLineCouponRepository
+     *
+     * cartLineCouponRepository
+     */
+    protected $cartLineCouponRepository;
+
+    /**
      * construct method
      *
-     * @param ObjectManager          $orderLineCouponObjectManager OrderLineCoupon ObjectManager
-     * @param CouponEventDispatcher  $couponEventDispatcher        CouponEventDispatcher
-     * @param OrderLineCouponFactory $orderLineCouponFactory       OrderLineCoupon factory
+     * @param ObjectManager            $orderLineCouponObjectManager OrderLineCoupon ObjectManager
+     * @param CouponEventDispatcher    $couponEventDispatcher        CouponEventDispatcher
+     * @param OrderLineCouponFactory   $orderLineCouponFactory       OrderLineCoupon factory
+     * @param CartLineCouponRepository $cartLineCouponRepository     CartLineCoupon Repository
      */
     public function __construct(
         ObjectManager $orderLineCouponObjectManager,
         CouponEventDispatcher $couponEventDispatcher,
-        OrderLineCouponFactory $orderLineCouponFactory
+        OrderLineCouponFactory $orderLineCouponFactory,
+        CartLineCouponRepository $cartLineCouponRepository
     ) {
         $this->orderLineCouponObjectManager = $orderLineCouponObjectManager;
         $this->couponEventDispatcher        = $couponEventDispatcher;
         $this->orderLineCouponFactory       = $orderLineCouponFactory;
+        $this->cartLineCouponRepository     = $cartLineCouponRepository;
     }
 
     /**
@@ -80,30 +91,24 @@ class OrderLineCouponManagerEventListener
      */
     public function convertToOrderLineCoupons(OrderLineCouponOnApplyEvent $event)
     {
+        $cartLine  = $event->getCartLine();
         $orderLine = $event->getOrderLine();
         $coupon    = $event->getCoupon();
+
+        $cartLineCoupon = $this->cartLineCouponRepository
+            ->findByCartLineAndCoupon($cartLine, $coupon);
 
         $orderLineCoupon = $this
             ->orderLineCouponFactory
             ->create()
             ->setOrderLine($orderLine)
             ->setCoupon($coupon)
-            ->setAmount($coupon->getAbsolutePrice())
+            ->setAmount($cartLineCoupon->getAmount())
             ->setName($coupon->getName())
             ->setCode($coupon->getCode());
 
         $this
             ->orderLineCouponObjectManager
             ->persist($orderLineCoupon);
-
-        $this
-            ->orderLineCouponObjectManager
-            ->flush($orderLineCoupon);
-
-        $event->setOrderLineCoupon($orderLineCoupon);
-
-        $this
-            ->couponEventDispatcher
-            ->notifyCouponUsage($coupon);
     }
 }

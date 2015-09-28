@@ -19,6 +19,7 @@ namespace Elcodi\Component\CartLineCoupon\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
+use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
 use Elcodi\Component\Cart\Entity\Interfaces\OrderLineInterface;
 use Elcodi\Component\CartLineCoupon\Entity\Interfaces\OrderLineCouponInterface;
 use Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface;
@@ -56,9 +57,11 @@ class OrderLineCouponOnApplyEvent extends Event
      * @param CouponInterface $coupon Coupon
      */
     public function __construct(
+        CartLineInterface $cartLine,
         OrderLineInterface $orderLine,
         CouponInterface $coupon
     ) {
+        $this->cartLine = $cartLine;
         $this->orderLine = $orderLine;
         $this->coupon = $coupon;
     }
@@ -76,6 +79,17 @@ class OrderLineCouponOnApplyEvent extends Event
 
         return $this;
     }
+
+    /**
+     * Return cartLine
+     *
+     * @return CartLineInterface CartLine
+     */
+    public function getCartLine()
+    {
+        return $this->cartLine;
+    }
+
 
     /**
      * Return orderLine

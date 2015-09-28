@@ -90,8 +90,8 @@ class ConvertToOrderLineCouponsEventListener
      */
     public function convertCouponToOrderLine(OrderLineOnCreatedEvent $orderLineOnCreatedEvent)
     {
-        $order = $orderOnCreatedEvent->getOrder();
-        $cartLine = $orderOnCreatedEvent->getCartLine();
+        $orderLine = $orderLineOnCreatedEvent->getOrderLine();
+        $cartLine  = $orderLineOnCreatedEvent->getCartLine();
         $cartLineCouponAmount = $cartLine->getCouponAmount();
 
         if ($cartLineCouponAmount instanceof MoneyInterface) {
@@ -122,6 +122,7 @@ class ConvertToOrderLineCouponsEventListener
             $this
                 ->orderLineCouponEventDispatcher
                 ->dispatchOrderLineCouponOnApplyEvent(
+                    $cartLine,
                     $orderLine,
                     $coupon
                 );
@@ -141,7 +142,7 @@ class ConvertToOrderLineCouponsEventListener
             ->orderLineCouponManager
             ->getOrderLineCoupons($orderLine);
 
-        if ($orderLineCoupons instanceof Collection) {
+        if ($orderLineCoupons instanceof Collection && $orderLineCoupons->count() > 0) {
             foreach ($orderLineCoupons as $orderLineCoupon) {
                 $this
                     ->orderLineCouponObjectManager

@@ -17,6 +17,7 @@
 
 namespace Elcodi\Component\CartLineCoupon\EventDispatcher;
 
+use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
 use Elcodi\Component\Cart\Entity\Interfaces\OrderLineInterface;
 use Elcodi\Component\CartLineCoupon\ElcodiCartLineCouponEvents;
 use Elcodi\Component\CartLineCoupon\Event\OrderLineCouponOnApplyEvent;
@@ -37,11 +38,13 @@ class OrderLineCouponEventDispatcher extends AbstractEventDispatcher
      * @return $this Self object
      */
     public function dispatchOrderLineCouponOnApplyEvent(
-        OrderLineInterface $cart,
+        CartLineInterface $cartLine,
+        OrderLineInterface $orderLine,
         CouponInterface $coupon
     ) {
         $event = new OrderLineCouponOnApplyEvent(
-            $cart,
+            $cartLine,
+            $orderLine,
             $coupon
         );
 

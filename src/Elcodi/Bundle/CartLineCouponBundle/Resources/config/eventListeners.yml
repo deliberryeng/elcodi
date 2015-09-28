@@ -97,7 +97,7 @@ services:
             - @elcodi.manager.order_line_coupon
             - @elcodi.object_manager.order_line_coupon
         tags:
-            - { name: kernel.event_listener, event: orderi_line.oncreated, method: convertCouponToOrderLine, priority: -16 }
+            - { name: kernel.event_listener, event: order_line.oncreated, method: convertCouponToOrderLine, priority: -16 }
 
     elcodi.event_listener.order_coupon_manager:
         class: Elcodi\Component\CartLineCoupon\EventListener\OrderLineCouponManagerEventListener
@@ -105,5 +105,6 @@ services:
             - @elcodi.object_manager.order_line_coupon
             - @elcodi.event_dispatcher.coupon
             - @elcodi.factory.order_line_coupon
+            - @elcodi.repository.cart_line_coupon
         tags:
             - { name: kernel.event_listener, event: order_line_coupon.onapply, method: convertToOrderLineCoupons, priority: 0 }

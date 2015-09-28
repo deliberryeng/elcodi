@@ -62,11 +62,20 @@ class OrderLineCouponManager
      */
     public function getOrderLineCoupons(OrderLineInterface $orderLine)
     {
+        /**
+         * If OrderLine id is null means that this orderLine has been generated from
+         * scratch. This also means that it cannot have any Coupon associated.
+         * If is this case, we avoid this lookup.
+         */
+        if ($orderLine->getId() === null) {
+            return new ArrayCollection();
+        }
+
         return new ArrayCollection(
             $this
                 ->orderLineCouponRepository
                 ->createQueryBuilder('olc')
-                ->where('olc.order_line = :orderLine')
+                ->where('olc.orderLine = :orderLine')
                 ->setParameter('orderLine', $orderLine)
                 ->getQuery()
                 ->getResult()

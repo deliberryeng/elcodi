@@ -20,14 +20,14 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Elcodi\Bundle\CoreBundle\DataFixtures\ORM\Abstracts\AbstractFixture;
-use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
-use Elcodi\Component\CartLineCoupon\Entity\Interfaces\CartLineCouponInterface;
+use Elcodi\Component\Cart\Entity\Interfaces\OrderLineInterface;
+use Elcodi\Component\CartLineCoupon\Entity\Interfaces\OrderLineCouponInterface;
 use Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface;
 
 /**
- * Class CartLineCouponData
+ * Class OrderLineCouponData
  */
-class CartLineCouponData extends AbstractFixture implements DependentFixtureInterface
+class OrderLineCouponData extends AbstractFixture implements DependentFixtureInterface
 {
     /**
      * Load data fixtures with the passed EntityManager
@@ -37,24 +37,24 @@ class CartLineCouponData extends AbstractFixture implements DependentFixtureInte
     public function load(ObjectManager $manager)
     {
         /**
-         * CartLines
+         * OrderLines
          *
-         * @var CartLineCouponInterface $cartLineCoupon
-         * @var CartLineInterface       $cartLine
+         * @var OrderLineCouponInterface $orderLineCoupon
+         * @var OrderLineInterface       $orderLine
          * @var CouponInterface         $coupon
          */
-        $cartLineCouponDirectory = $this->getDirector('cart_line_coupon');
+        $orderLineCouponDirectory = $this->getDirector('order_line_coupon');
 
-        $cartLine = $this->getReference('full-cart-line');
+        $orderLine = $this->getReference('full-order-line');
         $coupon = $this->getReference('coupon-percent');
 
-        $cartLineCoupon = $cartLineCouponDirectory
+        $orderLineCoupon = $orderLineCouponDirectory
             ->create()
-            ->setCartLine($cartLine)
+            ->setOrderLine($orderLine)
             ->setCoupon($coupon);
 
-        $cartLineCouponDirectory->save($cartLineCoupon);
-        $this->addReference('cart-line-coupon', $cartLineCoupon);
+        $orderLineCouponDirectory->save($orderLineCoupon);
+        $this->addReference('order-line-coupon', $orderLineCoupon);
     }
 
     /**
@@ -66,7 +66,7 @@ class CartLineCouponData extends AbstractFixture implements DependentFixtureInte
     public function getDependencies()
     {
         return [
-            'Elcodi\Bundle\CartLineBundle\DataFixtures\ORM\CartLineData',
+            'Elcodi\Bundle\OrderLineBundle\DataFixtures\ORM\OrderLineData',
             'Elcodi\Bundle\CouponBundle\DataFixtures\ORM\CouponData',
         ];
     }
