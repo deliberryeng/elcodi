@@ -67,4 +67,35 @@ class OrderLine implements OrderLineInterface
     {
         return $this->order;
     }
+
+    /**
+     * @var Collection
+     *
+     * orderLineCoupons for this order line
+     */
+    protected $orderLineCoupons;
+
+    /**
+     * Set orderLineCoupons
+     *
+     * @param Collection $orderLineCoupons OrderLineCoupons
+     *
+     * @return $this Self object
+     */
+    public function setOrderLineCoupons(Collection $orderLineCoupons)
+    {
+        $this->orderLineCoupons = $orderLineCoupons;
+
+        return $this;
+    }
+
+    /**
+     * Get orderLineCoupons
+     *
+     * @return Collection orderLineCoupons
+     */
+    public function getOrderLineCoupons()
+    {
+        return $this->orderLineCoupons;
+    }
 }
