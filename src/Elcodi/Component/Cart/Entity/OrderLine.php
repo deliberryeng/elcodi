@@ -17,6 +17,8 @@
 
 namespace Elcodi\Component\Cart\Entity;
 
+use Doctrine\Common\Collections\Collection;
+
 use Elcodi\Component\Cart\Entity\Interfaces\OrderInterface;
 use Elcodi\Component\Cart\Entity\Interfaces\OrderLineInterface;
 use Elcodi\Component\Cart\Entity\Traits\PriceTrait;
