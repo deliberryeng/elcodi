@@ -19,6 +19,7 @@ namespace Elcodi\Component\CartLineCoupon\Services;
 
 use Elcodi\Component\Cart\Entity\Interfaces\CartLineInterface;
 use Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface;
+use Elcodi\Component\Coupon\ElcodiCouponTypes;
 use Elcodi\Component\Rule\Services\Interfaces\RuleManagerInterface;
 
 /**
@@ -57,7 +58,9 @@ class CartLineCouponRuleManager
         $coupon
     )
     {
-        $discount = $coupon->getDiscount();
+        $discount = $coupon->getType() == ElcodiCouponTypes::TYPE_AMOUNT 
+		  ? $coupon->getPrice()->getAmount() 
+		  : $coupon->getDiscount();
         $rule     = $coupon->getdiscountRule();
         $n        = $coupon->getN();
         $m        = $coupon->getM();
