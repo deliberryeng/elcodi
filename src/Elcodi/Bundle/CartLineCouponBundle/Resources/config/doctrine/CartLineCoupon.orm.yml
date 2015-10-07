@@ -20,7 +20,7 @@ Elcodi\Component\CartLineCoupon\Entity\CartLineCoupon:
             joinColumn:
                 name: cart_line_id
                 referencedColumnName: id
-                on-delete: cascade
+                onDelete: "CASCADE"
         coupon:
             targetEntity: Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface
             fetch: EAGER
