@@ -655,6 +655,7 @@ class Product implements ProductInterface
 
         return $this;
     }
+
     /**
      * Product stringified
      *

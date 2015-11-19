@@ -27,6 +27,7 @@ use Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface;
 use Elcodi\Component\Currency\Entity\Interfaces\CurrencyInterface;
 use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
 use Elcodi\Component\Currency\Entity\Money;
+use Elcodi\Component\Product\Entity\Interfaces\ProductInterface;
 use Elcodi\Component\Rule\Entity\Interfaces\RuleInterface;
 
 /**
@@ -555,6 +556,33 @@ class Coupon implements CouponInterface
         return $this->products;
     }
 
+    /**
+     * Add product to the product collection.
+     *
+     * @param ProductInterface $product
+     *
+     * @return $this
+     */
+    public function addProduct(ProductInterface $product)
+    {
+        $this->products->add($product);
+
+        return $this;
+    }
+
+    /**
+     * Remove product from the product collection.
+     *
+     * @param ProductInterface $product
+     *
+     * @return $this
+     */
+    public function removeProduct(ProductInterface $product)
+    {
+        $this->products->removeElement($product);
+
+        return $this;
+    }
 
     /**
      * Set discount rule Rule to apply in product price

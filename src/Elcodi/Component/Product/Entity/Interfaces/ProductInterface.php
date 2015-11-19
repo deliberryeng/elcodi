@@ -23,6 +23,7 @@ use Elcodi\Component\Attribute\Entity\Interfaces\AttributeInterface;
 use Elcodi\Component\Core\Entity\Interfaces\DateTimeInterface;
 use Elcodi\Component\Core\Entity\Interfaces\ETaggableInterface;
 use Elcodi\Component\Core\Entity\Interfaces\IdentifiableInterface;
+use Elcodi\Component\Coupon\Entity\Interfaces\CouponInterface;
 use Elcodi\Component\Media\Entity\Interfaces\ImagesContainerInterface;
 use Elcodi\Component\Media\Entity\Interfaces\PrincipalImageInterface;
 use Elcodi\Component\MetaData\Entity\Interfaces\MetaDataInterface;
@@ -282,4 +283,38 @@ interface ProductInterface
      * @return boolean Product has variants
      */
     public function hasVariants();
+
+    /**
+     * Set coupons
+     *
+     * @param Collection $coupons Coupons
+     *
+     * @return $this Self object
+     */
+    public function setCoupons(Collection $coupons);
+
+    /**
+     * Get coupons
+     *
+     * @return Collection Coupons
+     */
+    public function getCoupons();
+
+    /**
+     * Add coupon
+     *
+     * @param CouponInterface $coupon Coupon
+     *
+     * @return $this Self object
+     */
+    public function addCoupon(CouponInterface $coupon);
+
+    /**
+     * Remove coupon
+     *
+     * @param CouponInterface $coupon Coupon
+     *
+     * @return $this Self object
+     */
+    public function removeCoupon(CouponInterface $coupon);
 }

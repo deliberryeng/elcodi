@@ -24,6 +24,7 @@ use Elcodi\Component\Core\Entity\Interfaces\EnabledInterface;
 use Elcodi\Component\Core\Entity\Interfaces\IdentifiableInterface;
 use Elcodi\Component\Core\Entity\Interfaces\ValidIntervalInterface;
 use Elcodi\Component\Currency\Entity\Interfaces\MoneyInterface;
+use Elcodi\Component\Product\Entity\Interfaces\ProductInterface;
 use Elcodi\Component\Rule\Entity\Interfaces\RuleInterface;
 
 /**
@@ -271,6 +272,24 @@ interface CouponInterface
      * @return Collection Products
      */
     public function getProducts();
+
+    /**
+     * Add product to the product collection.
+     *
+     * @param ProductInterface $product
+     *
+     * @return $this
+     */
+    public function addProduct(ProductInterface $product);
+
+    /**
+     * Remove product from the product collection.
+     *
+     * @param ProductInterface $product
+     *
+     * @return $this
+     */
+    public function removeProduct(ProductInterface $product);
 
     /**
      * Set duscount rule Rule to apply in product price
