@@ -129,6 +129,18 @@ class CartManager
             ->cartEventDispatcher
             ->dispatchCartLoadEvents($cart);
 
+        $this
+            ->cartLineEventDispatcher
+            ->dispatchCartLineOnEditEvent(
+                $cart,
+                $cartLine
+            );
+
+        $this
+            ->cartEventDispatcher
+            ->dispatchCartLoadEvents($cart);
+
+
         return $this;
     }
 
